@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const arrayShuffle = (array) => {
+    const copy = [...array];
     let currentIndex = array.length,  randomIndex;
 
     // While there remain elements to shuffle.
@@ -15,6 +16,8 @@ const arrayShuffle = (array) => {
         array[randomIndex], array[currentIndex]];
     }
 
+    // If the end result is the same, reshuffle
+    if( array.join('') === copy.join('') ) { arrayShuffle(array) }
     return array;
 }
 
@@ -25,13 +28,13 @@ const sentenceScramble = (string) => {
     // Perform a loop to scramble each word
     originalWords.forEach(word => {
         
-        const letters = word.split('');
-
         // 3 letter or less words don't shuffle, so skip
-        if(letters.length <= 3) {
-            scrambledWords.push(letters.join(''));
+        if(word.length <= 3) {
+            scrambledWords.push(word);
             return;
         }
+        
+        const letters = word.split('');
 
         // Extract first and last letter
         const first = letters.shift();
@@ -40,7 +43,7 @@ const sentenceScramble = (string) => {
         // Insert into a new array with the middle letters shuffled
         const scrambled = [first, ...arrayShuffle(letters), last].join('');
         scrambledWords.push(scrambled);
-        
+
         console.log(scrambledWords);
         
     });

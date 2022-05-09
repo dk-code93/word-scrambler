@@ -1,13 +1,14 @@
 import './css/index.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import utils from './utils.js';
 
 function App() {
-  const [sentence, setSentence] = useState('Loading...')
+  const [sentence, setSentence] = useState('Loading...');
 
   useEffect(() => {
     (async () => {
-      setSentence(await utils.getSentence(1));
+      const words = await utils.getSentence(1);
+      setSentence(words.join(' '));
     })();
   }, []);
 

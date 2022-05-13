@@ -21,42 +21,37 @@ const arrayShuffle = (array) => {
     return array;
 }
 
-const sentenceScramble = (string) => {
-    // Split string by spaces
-    const originalWords = string.split(' ');
-    const scrambledWords = [];
-    // Perform a loop to scramble each word
-    originalWords.forEach(word => {
-        
-        // 3 letter or less words don't shuffle, so skip
-        if(word.length <= 3) {
-            scrambledWords.push(word);
-            return;
-        }
-        
-        const letters = word.split('');
-
-        // Extract first and last letter
-        const first = letters.shift();
-        const last = letters.pop();
-
-        // Insert into a new array with the middle letters shuffled
-        const scrambled = [first, ...arrayShuffle(letters), last].join('');
-        scrambledWords.push(scrambled);
-
-        console.log(scrambledWords);
-        
-    });
-    return scrambledWords;
-}
-
 const utils = {
     getSentence: async (digit) => {
         const { data: { data: { sentence } } } = await axios.get(`https://api.hatchways.io/assessment/sentences/${digit}`);
-        const scrambled = sentenceScramble(sentence);
-        return scrambled;
+        const split = sentence.split(' ');
+        return split;
     },
-
+    sentenceScramble: (array) => {
+        // Accepts an array of words that is copied
+        const originalWords = [...array];
+        const scrambledWords = [];
+        // Perform a loop to scramble each word
+        originalWords.forEach(word => {
+            
+            // 3 letter or less words don't shuffle, so skip
+            if(word.length <= 3) {
+                scrambledWords.push(word);
+                return;
+            }
+            
+            const letters = word.split('');
+    
+            // Extract first and last letter
+            const first = letters.shift();
+            const last = letters.pop();
+    
+            // Insert into a new array with the middle letters shuffled
+            const scrambled = [first, ...arrayShuffle(letters), last].join('');
+            scrambledWords.push(scrambled);
+        });
+        return scrambledWords;
+    },
 }
 
 export default utils;

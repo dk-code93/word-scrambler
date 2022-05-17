@@ -1,7 +1,7 @@
 import './css/index.css';
 import { useEffect, useState } from 'react';
 import utils from './utils.js';
-import { Container, Row, Button, Stack } from 'react-bootstrap';
+import { Container, Row, Button, Stack, Form } from 'react-bootstrap';
 
 function App() {
   const [level, setLevel] = useState(1);
@@ -37,6 +37,38 @@ function App() {
               Score: { 'score here' }
             </h3>
           </Stack>
+        </Row>
+
+        <Row className='gap-2 h-50 words'>
+            {
+              // Cycle through each word returning a stack of individual letters
+              words.map((word, index) => {
+                return (
+                    <Stack key={word} gap={2} className='d-flex flex-row justify-content-between '>
+                      {
+                        word.split('').map((letter, i) => {
+                          return (
+                            <Form.Control 
+                              className='letter h-100 w-100 text-center'
+                              size='lg'
+                              plaintext
+                              type='text' 
+                              key={`${word} ${letter} ${i}`}
+                            ></Form.Control>
+                          )
+                        })
+                      }
+                      { index + 1 !== words.length &&
+                        // Conditionally return a space if it's not the last word
+                        <Form.Control 
+                          plaintext 
+                          className='space h-100 w-100'
+                        ></Form.Control>
+                      }
+                    </Stack>
+                )
+              })
+            }
         </Row>
 
         <Row>

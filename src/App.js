@@ -21,13 +21,13 @@ function App() {
 
   const validateLetter =(event) => {
     const target = event.target;
-    const value = target.value;
+    const value = target.value.toUpperCase();
     const name = target.name;
-    console.log(target.className);
+    console.log(event);
 
-    if( value.toUpperCase() === name.split(' ')[1] ) {
-      console.log('correcto!');
+    if( value === name.split(' ')[1].toUpperCase() ) {
       target.className += ' correct';
+      target.nextSibling.focus();
       return;
     }
     
@@ -39,14 +39,15 @@ function App() {
   const validateSpace = (event) => {
     const target = event.target;
     const value = target.value;
-    console.log(`This is value: "${value}"`);
+    console.log(event);
 
     if(value === ' ') {
       console.log('correcto!');
       target.className += ' correct';
+      target.parentElement.nextSibling.children[0].focus();
       return;
     }
-    
+
     target.className = 'space h-100 w-100 text-center form-control-lg'
   }
 
@@ -98,7 +99,6 @@ function App() {
                           plaintext
                           maxLength={1}
                           type='text'
-                          name={`${word} space`}
                           onChange={validateSpace}
                           className='space text-center h-100 w-100 form-control-lg'
                         ></Form.Control>

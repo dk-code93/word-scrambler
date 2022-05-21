@@ -7,6 +7,7 @@ function App() {
   const [level, setLevel] = useState(1);
   const [sentence, setSentence] = useState('Loading...');
   const [words, setWords] = useState([]);
+  const [correctLetters, setCorrect] = useState(0);
   const [score, setScore] = useState(0);
 
   useEffect(() => {
@@ -16,6 +17,7 @@ function App() {
       setWords([...result]);
       const scrambles = utils.sentenceScramble(result);
       setSentence(scrambles.join(' '));
+      setCorrect(0);
     })();
   }, [level]);
 
@@ -27,6 +29,8 @@ function App() {
 
     if( value === name.split(' ')[1].toUpperCase() ) {
       target.className += ' correct';
+      target.disabled = true;
+      setCorrect(correctLetters + 1);
       target.nextSibling.focus();
       return;
     }
@@ -44,6 +48,8 @@ function App() {
     if(value === ' ') {
       console.log('correcto!');
       target.className += ' correct';
+      target.disabled = true;
+      setCorrect(correctLetters + 1);
       target.parentElement.nextSibling.children[0].focus();
       return;
     }
@@ -86,6 +92,7 @@ function App() {
                               plaintext
                               maxLength={1}
                               type='text'
+                              disabled={false}
                               name={`${word} ${letter} ${i}`}
                               key={`${word} ${letter} ${i}`}
                               onChange={validateLetter}
@@ -109,11 +116,15 @@ function App() {
             }
         </Row>
 
-        <Row>
-          <Button 
-          onClick={() => {setLevel(level + 1)}}
-          >Next</Button>
-        </Row>
+        {
+          correctLetters >= words.join(' ').length &&
+          // Conditionally render a next button if all letters are correct
+          <Row>
+            <Button 
+            onClick={() => {setLevel(level + 1)}}
+            >Next</Button>
+          </Row>
+        }
       </Container>
     </Container>
   );

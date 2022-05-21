@@ -7,6 +7,7 @@ function App() {
   const [level, setLevel] = useState(1);
   const [sentence, setSentence] = useState('Loading...');
   const [words, setWords] = useState([]);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -17,6 +18,19 @@ function App() {
       setSentence(scrambles.join(' '));
     })();
   }, [level]);
+
+  const validateLetter =(event) => {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    console.log(target.className);
+
+    if( value.toUpperCase() === name.split(' ')[1] ) {
+      console.log('correcto!');
+      target.className += ' correct';
+    }
+
+  }
 
   return (
     <Container fluid className='bkg'>
@@ -34,7 +48,7 @@ function App() {
               The yellow blocks are meant for spaces
             </h5>
             <h3 className='text-center'>
-              Score: { 'score here' }
+              Score: { score }
             </h3>
           </Stack>
         </Row>
@@ -49,11 +63,13 @@ function App() {
                         word.split('').map((letter, i) => {
                           return (
                             <Form.Control 
-                              className='letter h-100 w-100 text-center'
-                              size='lg'
+                              className='letter h-100 w-100 text-center form-control-lg'
                               plaintext
-                              type='text' 
+                              maxLength={1}
+                              type='text'
+                              name={`${word} ${letter} ${i}`}
                               key={`${word} ${letter} ${i}`}
+                              onChange={validateLetter}
                             ></Form.Control>
                           )
                         })
@@ -61,8 +77,11 @@ function App() {
                       { index + 1 !== words.length &&
                         // Conditionally return a space if it's not the last word
                         <Form.Control 
-                          plaintext 
-                          className='space h-100 w-100'
+                          plaintext
+                          maxLength={1}
+                          type='text'
+                          name=' '
+                          className='space text-center h-100 w-100 form-control-lg'
                         ></Form.Control>
                       }
                     </Stack>

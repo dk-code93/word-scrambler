@@ -28,7 +28,11 @@ function App() {
     if( value.toUpperCase() === name.split(' ')[1] ) {
       console.log('correcto!');
       target.className += ' correct';
+      return;
     }
+    
+    // Reset styling if incorrect
+    target.className = 'letter h-100 w-100 text-center form-control-lg'
 
   }
 

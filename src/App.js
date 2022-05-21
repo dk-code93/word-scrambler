@@ -36,6 +36,20 @@ function App() {
 
   }
 
+  const validateSpace = (event) => {
+    const target = event.target;
+    const value = target.value;
+    console.log(`This is value: "${value}"`);
+
+    if(value === ' ') {
+      console.log('correcto!');
+      target.className += ' correct';
+      return;
+    }
+    
+    target.className = 'space h-100 w-100 text-center form-control-lg'
+  }
+
   return (
     <Container fluid className='bkg'>
       <Container className='game bg-light'>
@@ -84,7 +98,8 @@ function App() {
                           plaintext
                           maxLength={1}
                           type='text'
-                          name=' '
+                          name={`${word} space`}
+                          onChange={validateSpace}
                           className='space text-center h-100 w-100 form-control-lg'
                         ></Form.Control>
                       }
